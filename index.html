@@ -1,3 +1,254 @@
-<body>
-  <button onclick="alert('test')">test</button>
-</body>
+<button style="border:gray inset 5px;color:red;position:absolute;top:-6px;left:-6px;" onclick="document.body.removeChild(document.getElementById('container'))" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">X</button>
+  <button onclick="newPage('TTS')" style="border:gray inset 5px;position:absolute;top:-6px;left:23px;" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">TTS</button>
+  <button onclick="newPage('tone')" style="border:gray inset 5px;position:absolute;top:-6px;left:70px;" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">Tone</button>
+  <button onclick="newPage('static')" style="border:gray inset 5px;position:absolute;top:-6px;left:120px;" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">Static</button>
+  <button onclick="newPage('wave')" style="border:gray inset 5px;position:absolute;top:-6px;left:175px;" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">Wave</button>
+  <button onclick="newPage('keybinds')" style="border:gray inset 5px;position:absolute;top:-6px;left:230px;" onmousedown="this.style.borderStyle='outset'; this.style.backgroundColor = 'darkgray';" onmouseup="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';" onblur="this.style.borderStyle='inset'; this.style.backgroundColor = 'lightgray';">Keybinds</button>
+  
+<input class="tone" style="float:right;position:absolute;right:10px;top:10px;width:100;" type="number" value=500 id='tone'></input><span class="tone" style="position:absolute;top:13px;right:120px;float:right;">Tone</span>
+<select class="tone" oninput="if (document.getElementById('toneType').value !== 'custom') {document.getElementById('c1').style.display = 'none';document.getElementById('c2').style.display = 'none';document.getElementById('c3').style.display = 'none';document.getElementById('c4').style.display = 'none';} else {document.getElementById('c1').style.display = 'block';document.getElementById('c2').style.display = 'block';document.getElementById('c3').style.display = 'block';document.getElementById('c4').style.display = 'block';}"style="float:right;position:absolute;right:10px;top:40px;height:20px;width:100;" id="toneType"><option>sine</option><option>square</option><option>sawtooth</option><option>triangle</option><option>custom</option></select><span class="tone" style="position:absolute;top:41px;right:120px;float:right;">Type</span>
+<button class="tone" style="float:right;position:absolute;right:10px;top:70px;" onclick="playSound()">Play</button>
+<input class="toneC" style="display:none;float:right;position:absolute;right:10px;top:100px;width:30;" type="number" value=0 min=-1 max=1 step=0.1 id='c1'></input>  
+<input class="toneC" style="display:none;float:right;position:absolute;right:50px;top:100px;width:30;" type="number" value=0 min=-1 max=1 step=0.1 id='c2'></input>
+<input class="toneC" style="display:none;float:right;position:absolute;right:90px;top:100px;width:30;" type="number" value=0 min=-1 max=1 step=0.1 id='c3'></input>
+<input class="toneC" style="display:none;float:right;position:absolute;right:130px;top:100px;width:30;" type="number" value=0 min=-1 max=1 step=0.1 id='c4'></input>
+
+<input class="static" oninput="updateTime('s')" style="float:right;position:absolute;right:10px;top:130px;width:50;" type="number" value=10 step=1 min=1 id='sRepeat'></input><span class="static" style="position:absolute;top:132px;right:70px;float:right;">Repeat</span>
+<input class="static" style="float:right;position:absolute;right:10px;top:160px;width:50;" type="number" value=100 step=1 min=0 id='sMin'></input><span class="static" style="position:absolute;top:162px;right:70px;float:right;">Minimun</span>
+<input class="static" style="float:right;position:absolute;right:10px;top:190px;width:50;" type="number" value=500 step=1 min=0 id='sMax'></input><span class="static" style="position:absolute;top:192px;right:70px;float:right;">Maximun</span>
+<input class="static" oninput="updateTime('s')" style="float:right;position:absolute;right:10px;top:220px;width:50;" type="number" value=0.1 step=0.1 min=0.001 id='sInt'></input><span class="static" style="position:absolute;top:222px;right:70px;float:right;">Interval</span>
+<span class="static" style="position:absolute;top:252px;right:10px;float:right;" id='sTime'>Runs for 1.00000 second</span>
+<button class="static" style="float:right;position:absolute;right:10px;top:280px;" onclick="playStatic()">Play</button>
+  
+<input oninput="updateTime('w')" style="float:right;position:absolute;right:10px;top:320px;width:50;" type="number" value=100 step=1 min=1 id='wRepeat'></input><span style="position:absolute;top:322px;right:70px;float:right;">Repeat</span>
+<input style="float:right;position:absolute;right:10px;top:350px;width:50;" type="number" value=500 step=1 min=0 id='wStart'></input><span style="position:absolute;top:352px;right:70px;float:right;">Start at</span>
+<input style="float:right;position:absolute;right:10px;top:380px;width:50;" type="number" value=100 step=1 min=0 id='wRange'></input><span style="position:absolute;top:382px;right:70px;float:right;">Range</span>
+<input oninput="updateTime('w')" style="float:right;position:absolute;right:10px;top:410px;width:50;" type="number" value=0.01 step=0.1 min=0.001 id='wInt'></input><span style="position:absolute;top:412px;right:70px;float:right;">Interval</span>
+<input style="float:right;position:absolute;right:10px;top:440px;width:50;" type="number" value=10 step=1 min=0 id='wSpeed'></input><span style="position:absolute;top:442px;right:70px;float:right;">Speed</span>
+<span style="position:absolute;top:472px;right:10px;float:right;" id='wTime'>Runs for 1.00000 second</span>
+<button style="float:right;position:absolute;right:10px;top:500px;" onclick="playWave()">Play</button>
+
+<textarea class="TTS" style="z-index:100;position:absolute;left:10px;top:25px;"id="text">Text to Speech</textarea>
+<span class="TTS" style="position:absolute;left:28px;top:70px;">Pitch</span><input class="TTS" oninput="newNum('pitch','range',this)" style="position:absolute;left:100px;top:70px;width:200px;" id="pitch" type="range" step=0.01 min=0.1 max=10 value=1></input>  <input class="TTS" id="pitchNum" oninput="newNum('pitch','number',this)" style="position:absolute;left:320px;top:70px;width:50px" type="number" step=0.01 min=0.1 max=10 value=1></input>
+<span class="TTS" style="position:absolute;left:30px;top:100px;">Rate</span><input class="TTS" oninput="newNum('rate','range',this)" style="position:absolute;left:100px;top:100px;width:200px;" id="rate" type="range" step=0.01 min=0.1 max=10 value=1></input>  <input class="TTS" id="rateNum" oninput="newNum('rate','number',this)" style="position:absolute;left:320px;top:100px;width:50px" type="number" step=0.01 min=0.1 max=10 value=1></input>
+<span class="TTS" style="position:absolute;left:22px;top:130px;">Volume</span><input class="TTS" oninput="newNum('volume','range',this)" style="position:absolute;left:100px;top:130px;width:200px;" id="volume" type="range" step=0.01 min=0.1 max=1 value=1></input>  <input class="TTS" id="volumeNum" oninput="newNum('volume','number',this)" style="position:absolute;left:320px;top:130px;width:50px" type="number" step=0.01 min=0.1 max=1 value=1></input>
+<span class="TTS" style="position:absolute;left:22px;top:160px;">Repeat</span><input class="TTS" style="position:absolute;left:100px;top:160px;width:50px;" id="repeat" type="number" step=1 min=1 value=1></input>
+<span class="TTS" style="position:absolute;left:25px;top:190px;">Voice</span> <select class="TTS" style="position:absolute;left:100px;top:190px;" id="langDrop"></select>
+<button class="TTS" style="position:absolute;left:10px;top:220px;" onclick="speak()">Speak</button>
+<button style="position:absolute;left:10px;top:500px;" onclick="stopAnySound()">Stop</button>
+
+<textarea class="TTS" style="position:absolute;left:10px;top:260px;" id="textRepeat">Text to Speech</textarea>
+<input class="TTS" style="position:absolute;width:50px;left:60px;top:305px;" id="RRepeat" type="number" step=1 min=1 value=1></input><span class="TTS" style="position:absolute;top:307px;left:10px;float:right;">Repeat</span><br><br>
+<button class="TTS" style="position:absolute;left:10px;top:335px" onclick="document.getElementById('text').value = repeatText(document.getElementById('textRepeat').value,document.getElementById('RRepeat').value)">Insert</button>
+<script>
+  var c1 = document.getElementById('c1'),
+      c2 = document.getElementById('c2'),
+      c3 = document.getElementById('c3'),
+      c4 = document.getElementById('c4'),
+      osc = '',
+      sound = '',
+      gain = '';
+  function baseSound() {
+    sound = new AudioContext();
+    if (osc !== '') {osc.stop();}
+    osc = sound.createOscillator();
+    if (document.getElementById('toneType').value !== 'custom') {
+    osc.type = document.getElementById('toneType').value;
+    c1.style.display = 'none';
+    c2.style.display = 'none';
+    c3.style.display = 'none';
+    c4.style.display = 'none';
+    } else {
+    c1.style.display = 'block';
+    c2.style.display = 'block';
+    c3.style.display = 'block';
+    c4.style.display = 'block';
+    var wave = sound.createPeriodicWave([value('c1'), value('c2')], [value('c3'), value('c4')], {disableNormalization: true});
+    osc.setPeriodicWave(wave);
+    }
+    gain = sound.createGain();
+    gain.gain.setValueAtTime(1,sound.currentTime);
+  }
+  function playSound() {
+    baseSound();
+    osc.frequency.setValueAtTime(value('tone'), sound.currentTime);
+    osc.connect(gain);
+    gain.connect(sound.destination);
+    osc.start();
+  }
+  function playWave() {
+    baseSound();
+    for (var i = 0; i < value('wRepeat'); i++) {
+    osc.frequency.setValueAtTime(Number(value('wRange')) * Math.sin(i*Number(value('wSpeed'))*Number(value('wInt'))) + Number(value('wStart')), i*Number(value('wInt')));
+    }
+    osc.connect(gain);
+    gain.connect(sound.destination);
+    osc.start();
+    osc.stop(value('wRepeat')*value('wInt'));
+  }
+  function playStatic() {
+    baseSound();
+    for (var i = 0; i < value('sRepeat'); i++) {
+    osc.frequency.setValueAtTime(Math.floor(Math.random() * (Number(value('sMax')) - Number(value('sMin')) + 1) ) + Number(value('sMin')), i*Number(value('sInt')));
+    }
+    osc.connect(gain);
+    gain.connect(sound.destination);
+    osc.start();
+    osc.stop(value('sRepeat')*value('sInt'));
+  }
+  function stopAnySound() {
+    if (osc !== '') {osc.stop();}
+    if (speech !== '') {speech.cancel();}
+  }
+  var speech = window.speechSynthesis;
+function speak() {
+   for (i=0; i< value('repeat'); i++)
+   {var utter = new SpeechSynthesisUtterance(value('text'));
+utter.lang = voice();
+utter.pitch = value('pitch');
+utter.rate = value('rate');
+utter.volume = value('volume');
+window.speechSynthesis.speak(utter);}
+  }
+  function value(id) {
+    return document.getElementById(id).value;
+  }
+  function newNum(id,type,self) {
+    if (type !== 'number') {id = id + 'Num';}
+    document.getElementById(id).value = self.value;
+  }
+  function repeatText(text,repeat) {
+   var rtn = ''; 
+   for (i=0;i<repeat;i++){
+    rtn = rtn+text
+  }
+  return rtn;
+  }
+  function updateTime(type) {
+    var time = (value(type+'Repeat')*value(type+'Int')).toFixed(5);
+    document.getElementById(type+'Time').innerHTML = time>1 ? 'Runs for '+time+' seconds' : time==0 ? 'Does not run' : time==1 ? 'Runs for 1.00000 second' : 'Runs for '+time+'th of a second';
+  }
+  function populateVoiceList() {
+  if (document.getElementById('langDrop').children.length == 0) {
+    voices = speech.getVoices();
+
+  for(i = 0; i < voices.length ; i++) {
+    var option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+    
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    document.getElementById('langDrop').appendChild(option);
+  } }
+}
+  function voice() {
+  var selectedOption = document.getElementById('langDrop').selectedOptions[0].textContent;
+  return selectedOption.slice(selectedOption.indexOf('(')+1,selectedOption.indexOf(')'));
+  }
+</script>
+</div>
+<script>
+   var dragItem = document.getElementById('container');
+    var container = document.body;
+
+    var active = false;
+    var currentX;
+    var currentY;
+    var initialX;
+    var initialY;
+    var xOffset = 0;
+    var yOffset = 0;
+
+    container.addEventListener("touchstart", dragStart, false);
+    container.addEventListener("touchend", dragEnd, false);
+    container.addEventListener("touchmove", drag, false);
+
+    container.addEventListener("mousedown", dragStart, false);
+    container.addEventListener("mouseup", dragEnd, false);
+    container.addEventListener("mousemove", drag, false);
+
+    function dragStart(e) {
+      if (e.type === "touchstart") {
+        initialX = e.touches[0].clientX - xOffset;
+        initialY = e.touches[0].clientY - yOffset;
+      } else {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+      }
+
+      if (e.target === dragItem) {
+        active = true;
+      }
+    }
+
+    function dragEnd(e) {
+      initialX = currentX;
+      initialY = currentY;
+
+      active = false;
+    }
+
+    function drag(e) {
+      if (active) {
+        e.preventDefault();
+      
+        if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        } else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        }
+        xOffset = currentX;
+        yOffset = currentY;
+
+        setTranslate(currentX, currentY, dragItem);
+      }
+    }
+
+    function setTranslate(xPos, yPos, el) {
+      el.style.left = xPos + 'px';
+      el.style.top = yPos + 'px';
+    }
+    function newPage(type) {
+      var TTS = Array.from(document.querySelectorAll('.TTS')),
+          tone = Array.from(document.querySelectorAll('.tone')),
+          static = Array.from(document.querySelectorAll('.static')),
+          wave = Array.from(document.querySelectorAll('.wave')),
+          keybinds = Array.from(document.querySelectorAll('.keybinds')),
+          all = TTS.concat(tone.concat(static.concat(wave.concat(keybinds))));
+       for (var x = 0; x < all.length; x++) {
+         all[x].style.display = 'none';
+       }
+      if (type == 'TTS') {
+        for (var x = 0; x < TTS.length; x++) {
+         TTS[x].style.display = 'block';
+         }
+      }
+      else if (type == 'tone') {
+        for (var x = 0; x < tone.length; x++) {
+         tone[x].style.display = 'block';
+         }
+      }
+      else if (type == 'static') {
+        for (var x = 0; x < static.length; x++) {
+         static[x].style.display = 'block';
+         }
+      }
+      else if (type == 'wave') {
+        for (var x = 0; x < wave.length; x++) {
+         wave[x].style.display = 'block';
+         }
+      }
+      else if (type == 'keybinds') {
+        for (var x = 0; x < keybinds.length; x++) {
+         keybinds[x].style.display = 'block';
+         }
+        }
+    }
+    newPage('TTS');
+  </script>
